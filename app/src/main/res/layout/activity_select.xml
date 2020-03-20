@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SelectActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/icon_login_account"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"/>
+        <TextView
+            android:layout_toRightOf="@+id/iv_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_phoneNum"
+            android:layout_marginTop="23dp"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_toRightOf="@+id/iv_image"
+            android:layout_below="@+id/tv_phoneNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_name"
+            android:layout_marginLeft="10dp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="10dp"/>
+
+    <com.canny.no_touch_elevator.CustomViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/vp_select"/>
+</LinearLayout>

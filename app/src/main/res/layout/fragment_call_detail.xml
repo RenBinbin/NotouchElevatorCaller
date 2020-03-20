@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CallDetailFragment">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginLeft="25dp"
+        android:id="@+id/linearLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="呼叫类型" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_huti"
+        android:layout_below="@+id/rg_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="呼叫电梯" />
+        <TextView
+            android:id="@+id/tv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="==请选择=="
+            android:layout_marginLeft="25dp"/>
+    </LinearLayout>
+    <Button
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ll_huti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="确定"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_callok"/>
+
+    <RadioGroup
+        android:id="@+id/rg_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_alignParentStart="true">
+        <RadioButton
+            android:id="@+id/rb_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:checked="true"
+            android:text="前门"/>
+
+        <RadioButton
+            android:id="@+id/rb_jiaonei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="轿内"/>
+
+        <RadioButton
+            android:id="@+id/rb_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="后门"/>
+    </RadioGroup>
+</RelativeLayout>

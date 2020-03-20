@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_in_the_call"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".huti.InTheCallActivity"
+    android:background="@color/gray">
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <Button
+            android:id="@+id/btn_waihu"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:background="@drawable/setbar_bg"
+            android:text="转外呼"
+            android:textSize="12dp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="100dp"
+            android:src="@drawable/canny2"
+            android:id="@+id/imageView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="目的层"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Destination"
+            android:layout_gravity="center_horizontal"/>
+        <com.canny.no_touch_elevator.wheelview.WheelView
+            android:layout_width="150dp"
+            android:layout_height="300dp"
+            android:id="@+id/wv_neihu"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+        <Button
+            android:layout_marginTop="20dp"
+            android:background="@drawable/setbar_bg"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:text="确定"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/btn_ok"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:layout_above="@+id/tv_showMsg"/>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:text="11111"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:id="@+id/tv_showMsg"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+</RelativeLayout>
