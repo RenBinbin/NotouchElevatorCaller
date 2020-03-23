@@ -1,4 +1,4 @@
-package com.canny.no_touch_elevator.sms;
+package com.canny.no_touch_elevator.BroadcastReceiver;
 
 import android.content.Context;
 import android.database.ContentObserver;
@@ -52,7 +52,10 @@ public class SMSContentObserver extends ContentObserver {
                 // 获取短信内容
                 String body = c.getString(c.getColumnIndex("body"));
                 // 判断手机号是否为目标号码
-                if (!address.equals("10691576122284095900")) {
+//                if (!address.equals("10691576122284095900")) {
+//                    return;
+//                }
+                if (!body.startsWith("【康力电梯】")) {
                     return;
                 }
                 // 正则表达式截取短信中的4位验证码

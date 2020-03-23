@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context=".huti.CallElevatorActivity">
+    tools:context=".huti.CallElevatorActivity"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:gravity="center_vertical"

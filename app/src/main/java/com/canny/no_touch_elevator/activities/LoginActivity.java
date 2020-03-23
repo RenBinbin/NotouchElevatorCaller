@@ -1,5 +1,8 @@
 package com.canny.no_touch_elevator.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +10,8 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.canny.no_touch_elevator.BroadcastReceiver.ISmsReceived;
+import com.canny.no_touch_elevator.BroadcastReceiver.SMSContentObserver;
 import com.canny.no_touch_elevator.BroadcastReceiver.SMSReceiver;
 import com.canny.no_touch_elevator.R;
 import com.canny.no_touch_elevator.base.BaseActivity;
@@ -32,10 +38,13 @@ import com.canny.no_touch_elevator.webapi.CannyCallback;
 import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
 import static com.canny.no_touch_elevator.BroadcastReceiver.SMSReceiver.ACTION_SMS_RECEIVER;
 
-public class LoginActivity extends BaseActivity implements ISmsReceived,CannyCallback,
+@RuntimePermissions
+public class LoginActivity extends BaseActivity implements CannyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback  {
 
     @BindView(R.id.img_account)
@@ -53,7 +62,6 @@ public class LoginActivity extends BaseActivity implements ISmsReceived,CannyCal
 
     private TimeCount time;
     private Dialog mWeiboDialog;
-    SMSReceiver smsReceiver;
 
     @Override
     protected int getLayoutId() {
@@ -63,11 +71,9 @@ public class LoginActivity extends BaseActivity implements ISmsReceived,CannyCal
     @Override
     public void initData() {
         ButterKnife.bind(this);
+        requestPermission();
         time=new TimeCount(60000,1000);
-
-        smsReceiver= new SMSReceiver(this);
-        IntentFilter receiverFilter = new IntentFilter(ACTION_SMS_RECEIVER);
-        registerReceiver(smsReceiver, receiverFilter);
+        SMSMsg();
 
         //从设备获取手机号
         String userPhone=Assistant.getUserPhone();
@@ -136,11 +142,25 @@ public class LoginActivity extends BaseActivity implements ISmsReceived,CannyCal
         });
     }
 
-    @Override
-    protected  void onStop(){
-        super.onStop();
-        unregisterReceiver(smsReceiver);
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermission() {
+        LoginActivityPermissionsDispatcher.autoReadSMSWithCheck(this);
     }
+
+    private void SMSMsg() {
+        SMSContentObserver smsContentObserver = new SMSContentObserver(this, handler);
+        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, smsContentObserver);
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                verify_code_view.setEditContent(msg.obj.toString());
+            }
+        }
+    };
 
     //获取账号
     public String getInputPhoneNum() {
@@ -189,11 +209,18 @@ public class LoginActivity extends BaseActivity implements ISmsReceived,CannyCal
         }
     }
 
-    @Override
-    public void onMsgGet(String passcode) {
-        verify_code_view.setEditContent(passcode);
-        btnLogin.setEnabled(true);
+
+    @NeedsPermission(Manifest.permission.READ_SMS)
+    void autoReadSMS() {
+
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        LoginActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
 
     class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {

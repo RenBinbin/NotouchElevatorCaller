@@ -268,8 +268,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     }
 
     private void initDestFloor() {
-        NumericWheelAdapter numericWheelAdapter =
-                new NumericWheelAdapter(this, arrList);
+        NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this, arrList);
         numericWheelAdapter.setLabel("");
         wvRight.setViewAdapter(numericWheelAdapter);
         wvRight.setCyclic(false);

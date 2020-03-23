@@ -10,7 +10,6 @@ public class SMSReceiver extends BroadcastReceiver {
     public static final String ACTION_SMS_RECEIVER = "android.provider.Telephony.SMS_RECEIVED";
 
     final String MsgHead="【康力电梯】";
-
     ISmsReceived msgGetHandle;
     public SMSReceiver(ISmsReceived msgHandle){
         super();
@@ -19,10 +18,7 @@ public class SMSReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-
         if(intent.getAction().equals(ACTION_SMS_RECEIVER)){
-
             Object[] pdus=(Object[])intent.getExtras().get("pdus");
             //不知道为什么明明只有一条消息，传过来的却是数组，也许是为了处理同时同分同秒同毫秒收到多条短信
             //但这个概率有点小

@@ -7,16 +7,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".activities.LoginActivity">
+    tools:context=".activities.LoginActivity"
+    android:fitsSystemWindows="true" >
     <LinearLayout
         android:background="@color/blue1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="80dp"
             android:layout_marginRight="100dp"
@@ -98,27 +96,11 @@
             android:layout_marginLeft="@dimen/margin_tiny"
             android:scaleType="fitXY"
             android:src="@drawable/icon_login_pw"/>
-<!--        <EditText-->
-<!--            android:id="@+id/et_password"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginBottom="@dimen/margin_tiny"-->
-<!--            android:layout_marginLeft="@dimen/margin_normal"-->
-<!--            android:layout_toRightOf="@+id/img_pw"-->
-<!--            android:background="@null"-->
-<!--            android:hint="请输入验证码"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:maxLines="1"-->
-<!--            android:textColor="@android:color/black"-->
-<!--            android:textSize="@dimen/text_size_normal"/>-->
         <com.canny.no_touch_elevator.views.VerifyCodeView
             android:id="@+id/verify_code_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_marginLeft="@dimen/margin_normal"
@@ -128,14 +110,6 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_normal"/>
 
-        <!--        bottom line-->
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/line_height"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginLeft="@dimen/margin_normal"-->
-<!--            android:layout_toRightOf="@+id/img_pw"-->
-<!--            android:background="@color/lightblue"/>-->
     </RelativeLayout>
 
     <Button

@@ -39,7 +39,6 @@ public class CallSucessActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1=new Intent(CallSucessActivity.this,CallElevatorActivity.class);
-                intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
                 startActivity(intent1);
                 finish();
             }

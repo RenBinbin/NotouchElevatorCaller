@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.canny.no_touch_elevator">
+    package="com.canny.no_touch_elevator">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -20,39 +21,42 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-    <application android:allowBackup="true"
-        android:label="@string/app_name"
-        android:name="com.canny.no_touch_elevator.MyApp"
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name="com.canny.no_touch_elevator.activities.SplashActivity"
-                  android:theme="@style/Theme.Design.NoActionBar">
+
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-		<activity android:name="com.canny.no_touch_elevator.activities.LoginActivity"/>
-        <activity android:name="com.canny.no_touch_elevator.activities.CustomScanActivity"
-            android:theme="@style/Theme.Design.NoActionBar"/>
-        <activity android:name="com.canny.no_touch_elevator.activities.MainActivity" />
-        <activity android:name="com.canny.no_touch_elevator.huti.CallElevatorActivity" />
-        <activity android:name="com.canny.no_touch_elevator.BuildingActivity" />
-        <activity android:name="com.canny.no_touch_elevator.BuildingDetailActivity" />
-        <activity android:name="com.canny.no_touch_elevator.huti.InTheCallActivity" />
-        <activity android:name="com.canny.no_touch_elevator.huti.CallSucessActivity"
-            android:theme="@style/Theme.Design.NoActionBar"/>
-        <activity android:name="com.canny.no_touch_elevator.huti.InTheCallSucessActivity" />
-        <activity android:name="com.canny.no_touch_elevator.SelectActivity" />
-        <activity android:name="com.canny.no_touch_elevator.SelectCallActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity
+            android:name=".activities.CustomScanActivity"
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".huti.CallElevatorActivity" />
+        <activity android:name=".BuildingActivity" />
+        <activity android:name=".huti.InTheCallActivity" />
+        <activity
+            android:name=".huti.CallSucessActivity"
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity android:name=".huti.InTheCallSucessActivity" />
+        <activity android:name=".SelectActivity" />
+        <activity android:name=".SelectCallActivity" />
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -60,9 +64,9 @@
             android:name="com.amap.api.v2.apikey"
             android:value="9b98e1a718c74b99b27df5ab3c1314d2" />
 
-        <activity android:name="com.canny.no_touch_elevator.huti.ScanInTheCallActivity" />
-        <activity android:name="com.canny.no_touch_elevator.huti.ScanInTheSuccessActivity"></activity>
-        <activity android:name=".base.BaseActivity"/>
-	</application>
-	
+        <activity android:name=".huti.ScanInTheCallActivity" />
+        <activity android:name=".huti.ScanInTheSuccessActivity" />
+        <activity android:name=".base.BaseActivity" />
+    </application>
+
 </manifest>
