@@ -1,5 +1,7 @@
 package com.canny.no_touch_elevator.huti;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -34,10 +36,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class CallElevatorActivity extends BaseActivity implements CannyCallback,AMapLocationListener{
 
     @BindView(R.id.tv_showMsg)
@@ -89,6 +95,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     @Override
     public void initData() {
         ButterKnife.bind(this);
+        requestPermission();
         ConnectivityManager mConnectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
         //创建1个定时器
@@ -117,6 +124,11 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
                 finish();
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermission() {
+        CallElevatorActivityPermissionsDispatcher.openGPSWithCheck(this);
     }
 
     private void getNetWork() {
@@ -365,4 +377,15 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
             ivSet.setImageResource(R.drawable.ok1);
         }
     };
+
+    @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void openGPS() {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        CallElevatorActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
 }

@@ -141,27 +141,29 @@ public class CallDetailFragment extends BaseFragment{
                         LinkedTreeMap tm = (LinkedTreeMap) response.body();
                         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
                         String jsonString=gson.toJson(tm);
-                        UserBuildResponse buildResponse = gson.fromJson(jsonString, UserBuildResponse.class);
-                        if (buildResponse.getResult()==1){
-                            list= (ArrayList<UserBuildResponse.MsgBean>) buildResponse.getMsg();
-                            ElevatorBean.MsgBean cityBean = new ElevatorBean.MsgBean();
-                            for (int i = 0; i <list.size() ; i++) {
-                                ElevatorBean data=new ElevatorBean();
-                                data.setName(list.get(i).getBuildName());
-                                ArrayList<String> areaList = new ArrayList<>();
-                                for (int j = 0; j <list.get(i).getEtorList().size() ; j++) {
-                                    cityBean.setName(list.get(i).getEtorList().get(j).getBuild_number()+" "+
-                                            list.get(i).getEtorList().get(j).getBuild_etorindex());
-                                    areaList.add(list.get(i).getEtorList().get(j).getBuild_number()+" "+
-                                            list.get(i).getEtorList().get(j).getBuild_etorindex());
+                        if (jsonString.contains("1")){
+                            UserBuildResponse buildResponse = gson.fromJson(jsonString, UserBuildResponse.class);
+                            if (buildResponse.getResult()==1){
+                                list= (ArrayList<UserBuildResponse.MsgBean>) buildResponse.getMsg();
+                                ElevatorBean.MsgBean cityBean = new ElevatorBean.MsgBean();
+                                for (int i = 0; i <list.size() ; i++) {
+                                    ElevatorBean data=new ElevatorBean();
+                                    data.setName(list.get(i).getBuildName());
+                                    ArrayList<String> areaList = new ArrayList<>();
+                                    for (int j = 0; j <list.get(i).getEtorList().size() ; j++) {
+                                        cityBean.setName(list.get(i).getEtorList().get(j).getBuild_number()+" "+
+                                                list.get(i).getEtorList().get(j).getBuild_etorindex());
+                                        areaList.add(list.get(i).getEtorList().get(j).getBuild_number()+" "+
+                                                list.get(i).getEtorList().get(j).getBuild_etorindex());
+                                    }
+                                    options2Items.add(areaList);
+                                    listName.add(data);
+                                    area.add(cityBean);
+                                    options1Items=listName;
                                 }
-                                options2Items.add(areaList);
-                                listName.add(data);
-                                area.add(cityBean);
-                                options1Items=listName;
+                            }else {
+                                Toast.makeText(MyApp.getApplication(),response.message(),Toast.LENGTH_LONG).show();
                             }
-                        }else {
-                            Toast.makeText(MyApp.getApplication(),response.message(),Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -178,29 +180,31 @@ public class CallDetailFragment extends BaseFragment{
                         LinkedTreeMap tm = (LinkedTreeMap) response.body();
                         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
                         String jsonString=gson.toJson(tm);
-                        lastResponse = gson.fromJson(jsonString, UserLastResponse.class);
-                        if(1== lastResponse.getResult()) {
-                            if (lastResponse.getMsg()!=null){
-                                tvSelect.setText(lastResponse.getMsg().get(0).getBuildName()+" "+
-                                        lastResponse.getMsg().get(0).getBuild_number()+" "+
-                                        lastResponse.getMsg().get(0).getEtor_index_show());
+                        if (jsonString.contains("1")){
+                            lastResponse = gson.fromJson(jsonString, UserLastResponse.class);
+                            if(1== lastResponse.getResult()) {
+                                if (lastResponse.getMsg()!=null){
+                                    tvSelect.setText(lastResponse.getMsg().get(0).getBuildName()+" "+
+                                            lastResponse.getMsg().get(0).getBuild_number()+" "+
+                                            lastResponse.getMsg().get(0).getEtor_index_show());
 
-                                btnCallok.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (styleNum==null||styleNum.equals("前门")){
-                                            styleNum="0";
-                                        }else if (styleNum.equals("轿内")){
-                                            styleNum="0xFF";
-                                        }else if (styleNum.equals("后门")){
-                                            styleNum="1";
+                                    btnCallok.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            if (styleNum==null||styleNum.equals("前门")){
+                                                styleNum="0";
+                                            }else if (styleNum.equals("轿内")){
+                                                styleNum="0xFF";
+                                            }else if (styleNum.equals("后门")){
+                                                styleNum="1";
+                                            }
+                                            showAlterDialog();
                                         }
-                                        showAlterDialog();
-                                    }
-                                });
+                                    });
+                                }
+                            }else {
+                                Toast.makeText(MyApp.getApplication(), response.message(), Toast.LENGTH_LONG).show();
                             }
-                        }else {
-                            Toast.makeText(MyApp.getApplication(), response.message(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
