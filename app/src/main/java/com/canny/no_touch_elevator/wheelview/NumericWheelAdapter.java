@@ -21,6 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.canny.no_touch_elevator.huti.ScanInTheCallActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Numeric Wheel adapter.
  */
@@ -31,7 +36,7 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
 
     /** The default max value */
     private static final int DEFAULT_MIN_VALUE = 0;
-    
+
     // Values
     private int minValue;
     private int maxValue;
@@ -42,14 +47,15 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
     private String label;
 
     private int multiple;
-    
+
+    private List<String> data=new ArrayList<>();
     /**
      * Constructor
      * @param context the current context
      */
-    public NumericWheelAdapter(Context context) {
-        this(context, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE);
-    }
+//    public NumericWheelAdapter(Context context) {
+//        this(context,data);
+//    }
 
     /**
      * Constructor
@@ -57,8 +63,8 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
      * @param minValue the wheel min value
      * @param maxValue the wheel max value
      */
-    public NumericWheelAdapter(Context context, int minValue, int maxValue) {
-        this(context, minValue, maxValue, null);
+    public NumericWheelAdapter(Context context,List<String> data) {
+        this(context, data,null);
     }
 
     /**
@@ -68,39 +74,37 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
      * @param maxValue the wheel max value
      * @param format the format string
      */
-    public NumericWheelAdapter(Context context, int minValue, int maxValue, String format) {
+    public NumericWheelAdapter(Context context,List<String> data, String format) {
         super(context);
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+        this.data=data;
         this.format = format;
     }
 
-    public NumericWheelAdapter(Context context, int minValue, int maxValue, String format, int multiple) {
+    public NumericWheelAdapter(Context context,List<String> data, String format, int multiple) {
         super(context);
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+        this.data=data;
         this.format = format;
         this.multiple = multiple;
     }
 
     @Override
     public CharSequence getItemText(int index) {
-        if (index >= 0 && index < getItemsCount()) {
-            int value = 0;
-            if (multiple != 0){
-                value = minValue + index * multiple;
-            }else{
-                value = minValue + index;
-            }
-//            int value = minValue + index;
-            return format != null ? String.format(format, value) : Integer.toString(value);
-        }
-        return null;
+//        if (index >= 0 && index < getItemsCount()) {
+//            int value = 0;
+//            if (multiple != 0){
+//                value = minValue + index * multiple;
+//            }else{
+//                value = minValue + index;
+//            }
+////            int value = minValue + index;
+//            return format != null ? String.format(format, value) : Integer.toString(value);
+//        }
+        return data.get(index);
     }
 
     @Override
     public int getItemsCount() {
-        return maxValue - minValue + 1;
+        return data.size();
     }
     
     @Override

@@ -1,5 +1,6 @@
 package com.canny.no_touch_elevator.webapi;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.canny.no_touch_elevator.MyApp;
@@ -130,6 +131,7 @@ public  class CannyApi {
                     @Override
                     public void onSuccess(com.lzy.okgo.model.Response<CannyResponse> response) {
                         CannyResponse cannyResponse = response.body();
+                        Log.e("floor",cannyResponse.msg.toString() );
                         if(1==cannyResponse.result) {
                             LinkedTreeMap tm = (LinkedTreeMap) cannyResponse.msg;
                             //etorFloorInfoBean

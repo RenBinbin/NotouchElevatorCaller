@@ -59,7 +59,6 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
     public Dialog mWeiboDialog;
     private String[] floorAry1;
     private String[] forbidAry;
-    private Intent intent;
     private EtorFloorInfoBean informResponse;
     private List<Integer> newIndex=new ArrayList<>();
     private Handler handler;
@@ -67,7 +66,7 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
     private String etor_bianhao;
     private double latitude;
     private double longitude;
-    private int destNum;
+    private List<String> arrList = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -77,7 +76,6 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
     @Override
     public void initData() {
         ButterKnife.bind(this);
-        intent=getIntent();
         t = new Timer();
         handler = new Handler();
         //初始化定位
@@ -85,9 +83,7 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
         //设置定位回调监听
         mLocationClient.setLocationListener(this);
         initLocationOption();
-        intent = getIntent();
-        floorAry = intent.getStringArrayExtra("floorAry");
-        ShowContent();
+
     }
 
     private void initLocationOption() {
@@ -132,9 +128,7 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
 
     private void initDestFloor() {
         if (floorAry!=null){
-            NumericWheelAdapter numericWheelAdapter =
-                    new NumericWheelAdapter(this, Integer.parseInt(floorAry[0]),
-                            Integer.parseInt(floorAry[floorAry.length - 1]), null);
+            NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,arrList);
             numericWheelAdapter.setLabel("");
             wvNeihu.setViewAdapter(numericWheelAdapter);
             wvNeihu.setCyclic(false);
@@ -201,22 +195,18 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
             String floorName = informResponse.getFloorName();
             String forbid= informResponse.getFloorForbidden();
             forbidAry=forbid.replace(" ", "").split(",");
-            floorAry1 = floorName.replace(" ", "").split(",");
+            floorAry = floorName.replace(" ", "").split(",");
             tvShowMsg.setText(informResponse.getBuild_name()+" "+ informResponse.getBuild_number());
 
             for (int i= 0; i < forbidAry.length; i++) {
-                if (forbidAry[i].equals("0")){
+                if (forbidAry[i].equals("1")){
                     newIndex.add(i);
                 }
             }
-            if (floorAry==null){
-                NumericWheelAdapter numericWheelAdapter =
-                        new NumericWheelAdapter(this, Integer.parseInt(floorAry1[0]),
-                                Integer.parseInt(floorAry1[floorAry1.length - 1]), null);
-                numericWheelAdapter.setLabel("");
-                wvNeihu.setViewAdapter(numericWheelAdapter);
-                wvNeihu.setCyclic(false);
+            for (int i = 0; i < newIndex.size(); i++) {
+                arrList.add(floorAry[newIndex.get(i)]);
             }
+            ShowContent();
         }
     }
 
@@ -240,21 +230,9 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
                 //获取经度
                 longitude = amapLocation.getLongitude();
                 int destNum = wvNeihu.getCurrentItem() + 1;
-                if (newIndex.size()==0){
-                    CannyApi.CallRequest(SharedPrefOP.getInstance().getOpenId(),SharedPrefOP.getInstance().getBianHao(),
-                            amapLocation.getLatitude() + "", amapLocation.getLongitude() + "", 0xff,
-                            "1", destNum + "", ScanInTheCallActivity.this);//呼梯请求
-                }else{
-                    for (int i = 0; i < newIndex.size(); i++) {
-                        if (floorAry1[i].equals(String.valueOf(destNum))){
-                            Toast.makeText(this,"非法层(不停靠),",Toast.LENGTH_SHORT).show();
-                        }else {
-                            CannyApi.CallRequest(SharedPrefOP.getInstance().getOpenId(),SharedPrefOP.getInstance().getBianHao(),
-                                    amapLocation.getLatitude() + "", amapLocation.getLongitude() + "", 0xff,
-                                    "1", destNum + "", ScanInTheCallActivity.this);//呼梯请求
-                        }
-                    }
-                }
+                CannyApi.CallRequest(SharedPrefOP.getInstance().getOpenId(),SharedPrefOP.getInstance().getBianHao(),
+                        amapLocation.getLatitude() + "", amapLocation.getLongitude() + "", 0xff,
+                        "1", destNum + "", ScanInTheCallActivity.this);//呼梯请求
 //                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
 //                amapLocation.getLatitude();//获取纬度
 //                amapLocation.getLongitude();//获取经度

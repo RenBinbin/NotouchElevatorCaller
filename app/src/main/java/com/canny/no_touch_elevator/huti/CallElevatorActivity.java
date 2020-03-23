@@ -29,6 +29,8 @@ import com.canny.no_touch_elevator.webapi.response.StatusInforBean;
 import com.canny.no_touch_elevator.wheelview.NumericWheelAdapter;
 import com.canny.no_touch_elevator.wheelview.WheelView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,6 +78,8 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     private double latitude;
     private int nowNum;
     private int destNum;
+    private List<Integer> newIndex=new ArrayList<>();
+    private List<String> arrList;
 
     @Override
     protected int getLayoutId() {
@@ -106,6 +110,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
             public void onClick(View view) {
                 Intent intent1=new Intent(CallElevatorActivity.this,InTheCallActivity.class);
                 intent1.putExtra("floorAry",floorAry);
+                intent1.putExtra("forbidAry1",etorFloorInfoBean.getFloorForbidden().replace(" ", "").split(","));
                 //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
                // Log.e("len",floorAry.length+"" );
                 startActivity(intent1);
@@ -145,6 +150,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     public void onLocationChanged(AMapLocation amapLocation) {
         nowNum = wvLeft.getCurrentItem()+1;
         destNum = wvRight.getCurrentItem()+1;
+
         if (amapLocation != null) {
             StringBuffer sb = new StringBuffer();
             if (amapLocation.getErrorCode() == 0) {
@@ -254,7 +260,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
 
     private void initNowFloor() {
         NumericWheelAdapter numericWheelAdapter =
-                new NumericWheelAdapter(this, Integer.parseInt(floorAry[0]), Integer.parseInt(floorAry[floorAry.length - 1]));
+                new NumericWheelAdapter(this, arrList);
         numericWheelAdapter.setLabel("");
         //numericWheelAdapter.setTextSize(15);  设置字体大小
         wvLeft.setViewAdapter(numericWheelAdapter);
@@ -263,7 +269,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
 
     private void initDestFloor() {
         NumericWheelAdapter numericWheelAdapter =
-                new NumericWheelAdapter(this, Integer.parseInt(floorAry[0]), Integer.parseInt(floorAry[floorAry.length - 1]));
+                new NumericWheelAdapter(this, arrList);
         numericWheelAdapter.setLabel("");
         wvRight.setViewAdapter(numericWheelAdapter);
         wvRight.setCyclic(false);
@@ -285,10 +291,9 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
             etorFloorInfoBean = (EtorFloorInfoBean) other;
             String floorName = etorFloorInfoBean.getFloorName();
             floorAry = floorName.replace(" ", "").split(",");
-            ShowContent();
-
             tvShowMsg.setText(SharedPrefOP.getInstance().getBuildName()+" "+ SharedPrefOP.getInstance().getBuildNumber());
-
+            showPermit();
+            ShowContent();
             if (etorFloorInfoBean.getLast_call_from()> etorFloorInfoBean.getLast_call_to()){
                 ivUp.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -338,6 +343,20 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
             finish();
         }
     }
+
+    private void showPermit() {
+        String[] forbidAry=etorFloorInfoBean.getFloorForbidden().replace(" ", "").split(",");
+        arrList = new ArrayList<>();
+        for (int i = 0; i < forbidAry.length; i++) {
+            if (forbidAry[i].equals("1")){
+                newIndex.add(i);
+            }
+        }
+        for (int i = 0; i < newIndex.size(); i++) {
+            arrList.add(floorAry[newIndex.get(i)]);
+        }
+    }
+
     // 构建Runnable对象，在runnable中更新界面
     Runnable runAbleUi=new Runnable(){
         @Override

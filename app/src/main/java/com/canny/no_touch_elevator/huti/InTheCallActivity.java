@@ -31,6 +31,7 @@ import com.canny.no_touch_elevator.wheelview.OnWheelClickedListener;
 import com.canny.no_touch_elevator.wheelview.WheelView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,6 +51,7 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
     TextView tvShowMsg;
 
     private String[] floorAry;
+    private String[] forbidAry1;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -69,6 +71,7 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
     private String openId;
     private String etor_bianhao;
     private int destNum;
+    private List<String> arrList;
 
     @Override
     protected int getLayoutId() {
@@ -87,6 +90,7 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
         initLocationOption();
         intent = getIntent();
         floorAry = intent.getStringArrayExtra("floorAry");
+        forbidAry1 = intent.getStringArrayExtra("forbidAry1");
 
         tvShowMsg.setText(SharedPrefOP.getInstance().getBuildName()+" "+SharedPrefOP.getInstance().getBuildNumber());
         ShowContent();
@@ -143,9 +147,9 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
 
     private void initDestFloor() {
         if (floorAry!=null){
+            showPermit1();
             NumericWheelAdapter numericWheelAdapter =
-                    new NumericWheelAdapter(this, Integer.parseInt(floorAry[0]),
-                            Integer.parseInt(floorAry[floorAry.length - 1]), null);
+                    new NumericWheelAdapter(this,arrList);
             numericWheelAdapter.setLabel("");
             wvNeihu.setViewAdapter(numericWheelAdapter);
             wvNeihu.setCyclic(false);
@@ -214,21 +218,46 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
             String forbid= informResponse.getFloorForbidden();
             forbidAry=forbid.replace(" ", "").split(",");
             floorAry1 = floorName.replace(" ", "").split(",");
+            //List<String> list1= Arrays.asList(forbidAry);
+            showPermit();
 
+        }
+    }
+
+    private void showPermit() {
+        arrList = new ArrayList<>();
+        if (floorAry==null){
             for (int i = 0; i < forbidAry.length; i++) {
-                if (forbidAry[i].equals("0")){
+                if (forbidAry[i].equals("1")){
                     newIndex.add(i);
                 }
             }
-            if (floorAry==null){
-                NumericWheelAdapter numericWheelAdapter =
-                        new NumericWheelAdapter(this, Integer.parseInt(floorAry1[0]),
-                                Integer.parseInt(floorAry1[floorAry1.length - 1]), null);
-                numericWheelAdapter.setLabel("");
-                wvNeihu.setViewAdapter(numericWheelAdapter);
-                wvNeihu.setCyclic(false);
+            for (int i = 0; i < newIndex.size(); i++) {
+                arrList.add(floorAry1[newIndex.get(i)]);
+            }
+            NumericWheelAdapter numericWheelAdapter =
+                    new NumericWheelAdapter(this, arrList);
+            numericWheelAdapter.setLabel("");
+            wvNeihu.setViewAdapter(numericWheelAdapter);
+            wvNeihu.setCyclic(false);
+        }
+    }
+
+    private void showPermit1() {
+        arrList = new ArrayList<>();
+        for (int i = 0; i < forbidAry1.length; i++) {
+            if (forbidAry1[i].equals("1")){
+                newIndex.add(i);
             }
         }
+        for (int i = 0; i < newIndex.size(); i++) {
+            arrList.add(floorAry[newIndex.get(i)]);
+        }
+        NumericWheelAdapter numericWheelAdapter =
+                new NumericWheelAdapter(this, arrList);
+        numericWheelAdapter.setLabel("");
+        wvNeihu.setViewAdapter(numericWheelAdapter);
+        wvNeihu.setCyclic(false);
     }
 
     // 构建Runnable对象，在runnable中更新界面
@@ -249,21 +278,9 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
                 //定位成功回调信息，设置相关消息
 
                 destNum = wvNeihu.getCurrentItem() + 1;
-                if (newIndex.size()==0){
-                    CannyApi.CallRequest(SharedPrefOP.getInstance().getOpenId(),SharedPrefOP.getInstance().getBianHao(),
-                            amapLocation.getLatitude() + "", amapLocation.getLongitude() + "", 0xff,
-                            "1", destNum + "", InTheCallActivity.this);//呼梯请求
-                }else{
-                    for (int i = 0; i < newIndex.size(); i++) {
-                        if (floorAry1[i].equals(String.valueOf(destNum))){
-                            Toast.makeText(this,"非法层(不停靠),",Toast.LENGTH_SHORT).show();
-                        }else {
-                            CannyApi.CallRequest(SharedPrefOP.getInstance().getOpenId(),SharedPrefOP.getInstance().getBianHao(),
-                                    amapLocation.getLatitude() + "", amapLocation.getLongitude() + "", 0xff,
-                                    "1", destNum + "", InTheCallActivity.this);//呼梯请求
-                        }
-                    }
-                }
+                CannyApi.CallRequest(SharedPrefOP.getInstance().getOpenId(),SharedPrefOP.getInstance().getBianHao(),
+                        amapLocation.getLatitude() + "", amapLocation.getLongitude() + "", 0xff,
+                        "1", destNum + "", InTheCallActivity.this);//呼梯请求
 
 //                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
 //                amapLocation.getLatitude();//获取纬度
