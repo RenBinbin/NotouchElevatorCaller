@@ -1,10 +1,13 @@
 package com.canny.no_touch_elevator.huti;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -35,9 +38,13 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class ScanInTheCallActivity extends BaseActivity implements CannyCallback,AMapLocationListener{
 
     @BindView(R.id.wv_neihu)
@@ -76,6 +83,7 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
     @Override
     public void initData() {
         ButterKnife.bind(this);
+        requestPermission();
         t = new Timer();
         handler = new Handler();
         //初始化定位
@@ -84,6 +92,11 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
         mLocationClient.setLocationListener(this);
         initLocationOption();
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermission() {
+        ScanInTheCallActivityPermissionsDispatcher.openGPSWithCheck(this);
     }
 
     private void initLocationOption() {
@@ -319,5 +332,15 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
             mLocationClient = null;
             mLocationOption = null;
         }
+    }
+
+    @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void openGPS() {
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        ScanInTheCallActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 }
