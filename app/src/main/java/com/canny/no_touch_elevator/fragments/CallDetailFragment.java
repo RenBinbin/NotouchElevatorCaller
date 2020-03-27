@@ -1,4 +1,4 @@
-package com.canny.no_touch_elevator;
+package com.canny.no_touch_elevator.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +15,8 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.canny.no_touch_elevator.MyApp;
+import com.canny.no_touch_elevator.R;
 import com.canny.no_touch_elevator.base.BaseFragment;
 import com.canny.no_touch_elevator.huti.CallElevatorActivity;
 import com.canny.no_touch_elevator.huti.ScanInTheCallActivity;
@@ -123,7 +125,7 @@ public class CallDetailFragment extends BaseFragment{
                         index2=options2;
                     }
                 }).build();
-                if (options1Items!=null&&options2Items!=null){
+                if (options1Items.size()!=0&&options2Items.size()!=0){
                     optionsPickerView.setPicker(options1Items,options2Items);
                     optionsPickerView.show();
                 }

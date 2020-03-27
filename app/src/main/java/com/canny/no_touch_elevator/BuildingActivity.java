@@ -48,7 +48,7 @@ public class BuildingActivity extends BaseActivity{
 //                                    UserBuildResponse buildResponse = gson.fromJson(s, UserBuildResponse.class);
 //                                    if (buildResponse.getResult()==1){
 //                                        List<UserBuildResponse.MsgBean> list = buildResponse.getMsg();
-//                                        BuildInformAdapter adapter = new BuildInformAdapter(BuildingActivity.this, list);
+//                                        GroupResultAdapter adapter = new GroupResultAdapter(BuildingActivity.this, list);
 //                                        lvBuild.setAdapter(adapter);
 //                                    }
 //                                }else {
@@ -81,7 +81,7 @@ public class BuildingActivity extends BaseActivity{
 //                                    UserBuildResponse buildResponse = gson.fromJson(s, UserBuildResponse.class);
 //                                    if (buildResponse.getResult()==1){
 //                                        List<UserBuildResponse.MsgBean> list = buildResponse.getMsg();
-//                                        BuildInformAdapter adapter = new BuildInformAdapter(BuildingActivity.this, list);
+//                                        GroupResultAdapter adapter = new GroupResultAdapter(BuildingActivity.this, list);
 //                                        lvBuild.setAdapter(adapter);
 //                                    }
 //                                }else {
@@ -114,7 +114,7 @@ public class BuildingActivity extends BaseActivity{
 //                            UserBuildResponse buildResponse = gson.fromJson(s, UserBuildResponse.class);
 //                            if (buildResponse.getResult()==1){
 //                                List<UserBuildResponse.MsgBean> list = buildResponse.getMsg();
-//                                BuildInformAdapter adapter = new BuildInformAdapter(BuildingActivity.this, list);
+//                                GroupResultAdapter adapter = new GroupResultAdapter(BuildingActivity.this, list);
 //                                lvBuild.setAdapter(adapter);
 //                            }
 //                        }else {

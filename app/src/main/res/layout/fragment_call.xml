@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SelectContentFragment">
+    tools:context=".fragments.SelectContentFragment">
 
     <RelativeLayout
         android:id="@+id/rl_call"
@@ -17,13 +17,28 @@
         android:layout_marginTop="10dp"
         android:textSize="16dp"/>
     </RelativeLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
         android:layout_marginTop="5dp"/>
-
+    <RelativeLayout
+        android:id="@+id/rl_apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="权限申请"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:textSize="16dp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="5dp"/>
     <RelativeLayout
         android:id="@+id/rl_renzheng"
         android:layout_width="match_parent"

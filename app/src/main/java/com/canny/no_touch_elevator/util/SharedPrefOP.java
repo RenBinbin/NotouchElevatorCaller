@@ -13,6 +13,7 @@ public class SharedPrefOP {
     public static final String KEY_BUILDNAME= "buildname";
     public static final String KEY_BUILDNUMBER= "buildnumber";
     public static final String KEY_BIANHAO= "bianhao";
+    public static final String KEY_REQUESTID= "requestId";
 
     private static SharedPreferences mSharedPreferences;
     private static SharedPrefOP instance;
@@ -39,6 +40,16 @@ public class SharedPrefOP {
             instance=new SharedPrefOP(MyApp.getApplication().getApplicationContext());
         }
         return instance;
+    }
+
+    public String getRequestId() {
+        //获取SharedPreferences对象，使用自定义类的方法来获取对象
+        String requestId= (String) getData(KEY_REQUESTID,"");
+        return requestId;
+    }
+    public void saveRequestId(String requestId) {
+        //获取SharedPreferences对象，使用自定义类的方法来获取对象
+        saveData(KEY_REQUESTID,requestId);
     }
 
     public String getBianHao() {

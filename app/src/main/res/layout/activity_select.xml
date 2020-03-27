@@ -8,6 +8,7 @@
     tools:context=".SelectActivity">
 
     <RelativeLayout
+        android:id="@+id/rl_inform"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -35,9 +36,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_marginTop="10dp"/>
-
+        android:background="@color/black" />
     <com.canny.no_touch_elevator.CustomViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"

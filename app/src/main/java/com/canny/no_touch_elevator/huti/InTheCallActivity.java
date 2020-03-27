@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,8 +48,6 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
     WheelView wvNeihu;
     @BindView(R.id.btn_ok)
     Button btnOk;
-    @BindView(R.id.btn_waihu)
-    Button btnWaihu;
     @BindView(R.id.tv_showMsg)
     TextView tvShowMsg;
 
@@ -133,16 +134,27 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
                 }
             }
         });
+    }
 
-        btnWaihu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.in_call_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.jiaowai: {
                 Intent intent1=new Intent(InTheCallActivity.this, CallElevatorActivity.class);
                 //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
                 startActivity(intent1);
                 finish();
+                break;
             }
-        });
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initDestFloor() {
@@ -206,7 +218,10 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
             t.cancel();
             index=0;
             Intent intent1 = new Intent(this, InTheCallSucessActivity.class);
-            intent1.putExtra("right", wvNeihu.getCurrentItem() + 1 + "");
+            if (arrList.size()!=0){
+                intent1.putExtra("right", arrList.get(wvNeihu.getCurrentItem()) + "");
+            }
+
             //intent1.putExtra("build_name",informResponse.get);
             //intent1.putExtra("build_number",informResponse.getMsg().getBuild_number());
             //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));

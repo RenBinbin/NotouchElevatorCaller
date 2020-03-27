@@ -17,6 +17,12 @@ public class Constants {
     public static final String UserBuilding="api/lift/getuserbuilding";//用户小区及电梯信息
     public static final String UserLastBuilding="api/lift/lastcalletor";//用户上次呼梯的小区及电梯信息
     public static final String JudgeRegister="api/lift/isuserreg";//判断用户是否注册接口
+    public static final String VisitorPermissRequest="api/lift/reqetorvisitorpermission";//用户请求访客权限记录提交
+    public static final String VisitorPermissResport="api/lift/rspetorvisitorpermission";//用户应答请求访客权限,记录提交
+    public static final String VisitorRecord="api/lift/etorvisitorrecord";//用户查询受访纪录
+    public static final String VisitorResult="api/lift/etorvisitorresult";//用户访客纪录结果
+    public static final String RunStateRequest="api/lift/reqgroupetorrunstate";//群控电梯查询运行状态请求
+    public static final String RunStateResult="api/lift//reqgroupetorrunstateresult";//群控电梯查询运行状态请求结果
 
     //====
     public static boolean DebugFlag=false;
@@ -31,5 +37,11 @@ public class Constants {
     public static String UserBuildingUrl=(BaseUrl+UserBuilding);//用户小区及电梯信息
     public static String UserLastBuildingUrl=(BaseUrl+UserLastBuilding);//用户上次呼梯的小区及电梯信息
     public static String JudgeRegisterUrl=(BaseUrl+JudgeRegister);//判断用户是否注册接口
+    public static String VisitorPermissRequestUrl=(BaseUrl+VisitorPermissRequest);//用户请求访客权限记录提交
+    public static String VisitorPermissResportUrl=(BaseUrl+VisitorPermissResport);//用户应答请求访客权限,记录提交
+    public static String VisitorRecordUrl=(BaseUrl+VisitorRecord);//用户查询受访纪录
+    public static String VisitorResultUrl=(BaseUrl+VisitorResult);//用户访客纪录结果
+    public static String RunStateRequestUrl=(BaseUrl+RunStateRequest);//群控电梯查询运行状态请求
+    public static String RunStateResultUrl=(BaseUrl+RunStateResult);//群控电梯查询运行状态请求结果
 
 }

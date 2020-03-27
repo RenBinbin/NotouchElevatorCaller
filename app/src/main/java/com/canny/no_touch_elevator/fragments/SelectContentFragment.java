@@ -1,9 +1,11 @@
-package com.canny.no_touch_elevator;
+package com.canny.no_touch_elevator.fragments;
 
 import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.canny.no_touch_elevator.R;
+import com.canny.no_touch_elevator.SelectActivity;
 import com.canny.no_touch_elevator.base.BaseFragment;
 
 import butterknife.BindView;
@@ -13,12 +15,13 @@ public class SelectContentFragment extends BaseFragment {
 
     @BindView(R.id.rl_call)
     RelativeLayout rlCall;
-
     @BindView(R.id.rl_renzheng)
     RelativeLayout rlRenzheng;
-
     @BindView(R.id.rl_set)
     RelativeLayout rlSet;
+    @BindView(R.id.rl_apply)
+    RelativeLayout rlApply;
+
 
     public SelectContentFragment() {
     }
@@ -41,9 +44,20 @@ public class SelectContentFragment extends BaseFragment {
         rlCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vw) {
-                Intent intent=new Intent(getContext(),SelectActivity.class);
+                Intent intent=new Intent(getContext(), SelectActivity.class);
                 intent.putExtra("page2","1");
                 startActivity(intent);
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
+
+        rlApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vw) {
+                Intent intent=new Intent(getContext(),SelectActivity.class);
+                intent.putExtra("page3","2");
+                startActivity(intent);
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/jiaonei"
+        android:title="切换轿内呼梯"/>
+    <item android:id="@+id/qunkong"
+        android:title="群控电梯位置显示"/>
+</menu>

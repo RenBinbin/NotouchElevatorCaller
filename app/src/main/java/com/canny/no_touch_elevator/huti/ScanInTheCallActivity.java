@@ -64,7 +64,6 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
     private Timer t;
     private int index=0;
     public Dialog mWeiboDialog;
-    private String[] floorAry1;
     private String[] forbidAry;
     private EtorFloorInfoBean informResponse;
     private List<Integer> newIndex=new ArrayList<>();
@@ -197,7 +196,10 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
             index=0;
 
             Intent intent1 = new Intent(this, ScanInTheSuccessActivity.class);
-            intent1.putExtra("right", wvNeihu.getCurrentItem() + 1 + "");
+            if (arrList.size()!=0){
+                intent1.putExtra("right", arrList.get(wvNeihu.getCurrentItem()) + "");
+            }
+
             //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
             //intent1.putExtra("build_name",informResponse.getMsg().getBuild_name());
             //intent1.putExtra("build_number",informResponse.getMsg().getBuild_number());

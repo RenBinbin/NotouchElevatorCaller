@@ -9,8 +9,10 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.canny.no_touch_elevator.GroupElevatorActivity;
 import com.canny.no_touch_elevator.R;
 import com.canny.no_touch_elevator.base.BaseActivity;
 import com.canny.no_touch_elevator.util.SharedPrefOP;
@@ -36,7 +39,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,8 +56,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     WheelView wvLeft;
     @BindView(R.id.wv_right)
     WheelView wvRight;
-    @BindView(R.id.btn_neihu)
-    Button btnNeihu;
+
     @BindView(R.id.iv_up)
     ImageView ivUp;
     @BindView(R.id.iv_down)
@@ -101,7 +102,6 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
         //创建1个定时器
         t = new Timer();
         handler = new Handler();
-        //intent = getIntent();
         etor_bianhao = SharedPrefOP.getInstance().getBianHao();
         openId = SharedPrefOP.getInstance().getOpenId();
         getNetWork();
@@ -111,19 +111,46 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
         //设置定位回调监听
         mLocationClient.setLocationListener(this);
         initLocationOption();
+    }
 
-        btnNeihu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.call_elevator_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.jiaonei: {
                 Intent intent1=new Intent(CallElevatorActivity.this,InTheCallActivity.class);
                 intent1.putExtra("floorAry",floorAry);
                 intent1.putExtra("forbidAry1",etorFloorInfoBean.getFloorForbidden().replace(" ", "").split(","));
                 //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
-               // Log.e("len",floorAry.length+"" );
+                // Log.e("len",floorAry.length+"" );
                 startActivity(intent1);
                 finish();
+                newIndex.clear();
+                arrList.clear();
+                break;
             }
-        });
+            case R.id.qunkong:
+                if (etorFloorInfoBean!=null){
+                    if (etorFloorInfoBean.isIsGroupEtor()==false){
+                        Toast.makeText(this,"当前非群控梯,请关注轿外楼层显示",Toast.LENGTH_SHORT).show();
+                    }else {
+                        if (SharedPrefOP.getInstance().getRequestId().equals("")){
+
+                        }else {
+                            startActivity(new Intent(this, GroupElevatorActivity.class));
+                            finish();
+                        }
+                    }
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -136,6 +163,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
 
         }else {
             CannyApi.GetEtorFloorInfo(openId,etor_bianhao, this);
+            CannyApi.GroupRunStateRequest(openId,etor_bianhao,this);
         }
     }
 
@@ -347,11 +375,15 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
             StatusInforBean statusResopnse= (StatusInforBean) other;
             Intent intent1=new Intent(this,CallSucessActivity.class);
             intent1.putExtra("des_etor_index_show",statusResopnse.getDes_etor_index_show());
-            intent1.putExtra("left",wvLeft.getCurrentItem()+1+"");
-            intent1.putExtra("right",wvRight.getCurrentItem()+1+"");
+            if (arrList.size()!=0){
+                intent1.putExtra("left",arrList.get(wvLeft.getCurrentItem())+"");
+                intent1.putExtra("right",arrList.get(wvRight.getCurrentItem())+"");
+            }
             //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
             startActivity(intent1);
             finish();
+            newIndex.clear();
+            arrList.clear();
         }
     }
 

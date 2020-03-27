@@ -9,18 +9,18 @@
     android:background="@color/white"
     tools:context=".activities.LoginActivity"
     android:fitsSystemWindows="true" >
-    <LinearLayout
-        android:background="@color/blue1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="100dp"
-            android:src="@mipmap/canny2"
-            android:id="@+id/imageView" />
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:background="@color/blue1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_marginLeft="80dp"-->
+<!--            android:layout_marginRight="100dp"-->
+<!--            android:src="@mipmap/canny2"-->
+<!--            android:id="@+id/imageView" />-->
+<!--    </LinearLayout>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_normal"

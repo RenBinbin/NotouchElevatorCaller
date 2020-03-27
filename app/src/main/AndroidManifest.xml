@@ -32,8 +32,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar">
-
+        android:theme="@style/AppTheme">
+        <activity android:name=".GroupElevatorActivity"></activity>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/Theme.Design.NoActionBar">
@@ -54,9 +54,10 @@
         <activity
             android:name=".huti.CallSucessActivity"
             android:theme="@style/Theme.Design.NoActionBar" />
-        <activity android:name=".huti.InTheCallSucessActivity" />
+        <activity
+            android:name=".huti.InTheCallSucessActivity"
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity android:name=".SelectActivity" />
-        <activity android:name=".SelectCallActivity" />
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -64,8 +65,12 @@
             android:name="com.amap.api.v2.apikey"
             android:value="9b98e1a718c74b99b27df5ab3c1314d2" />
 
-        <activity android:name=".huti.ScanInTheCallActivity" />
-        <activity android:name=".huti.ScanInTheSuccessActivity" />
+        <activity
+            android:name=".huti.ScanInTheCallActivity"
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity
+            android:name=".huti.ScanInTheSuccessActivity"
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity android:name=".base.BaseActivity" />
     </application>
 

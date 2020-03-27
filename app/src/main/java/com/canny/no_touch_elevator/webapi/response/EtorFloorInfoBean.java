@@ -1,15 +1,20 @@
 package com.canny.no_touch_elevator.webapi.response;
 
 public class EtorFloorInfoBean {
+
     /**
      * floorCnt : 5
      * floorForbidden : 1,1,1,1,1
      * floorName :  1, 2, 3, 4, 5
-     * build_name : 康力大道799号新里程
-     * build_number : 新里程
-     * build_etorindex : 观光西
+     * build_name : 汾湖康力大道888号
+     * build_number : 一期综合楼
+     * build_etorindex : T3
      * last_call_from : 1
-     * last_call_to : 1
+     * last_call_to : 3
+     * isGroupEtor : false
+     * need_auth : false
+     * public_floors :
+     * user_floors :
      */
 
     private String floorCnt;
@@ -20,6 +25,10 @@ public class EtorFloorInfoBean {
     private String build_etorindex;
     private int last_call_from;
     private int last_call_to;
+    private boolean isGroupEtor;
+    private boolean need_auth;
+    private String public_floors;
+    private String user_floors;
 
     public String getFloorCnt() {
         return floorCnt;
@@ -83,5 +92,37 @@ public class EtorFloorInfoBean {
 
     public void setLast_call_to(int last_call_to) {
         this.last_call_to = last_call_to;
+    }
+
+    public boolean isIsGroupEtor() {
+        return isGroupEtor;
+    }
+
+    public void setIsGroupEtor(boolean isGroupEtor) {
+        this.isGroupEtor = isGroupEtor;
+    }
+
+    public boolean isNeed_auth() {
+        return need_auth;
+    }
+
+    public void setNeed_auth(boolean need_auth) {
+        this.need_auth = need_auth;
+    }
+
+    public String getPublic_floors() {
+        return public_floors;
+    }
+
+    public void setPublic_floors(String public_floors) {
+        this.public_floors = public_floors;
+    }
+
+    public String getUser_floors() {
+        return user_floors;
+    }
+
+    public void setUser_floors(String user_floors) {
+        this.user_floors = user_floors;
     }
 }
