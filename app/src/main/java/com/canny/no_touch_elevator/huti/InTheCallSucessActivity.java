@@ -29,7 +29,7 @@ public class InTheCallSucessActivity extends BaseActivity {
     @Override
     public void initData() {
         ButterKnife.bind(this);
-        final Intent intent=getIntent();
+        Intent intent=getIntent();
         tvFloorNum.setText(intent.getStringExtra("right"));
 
         //tvShowMsg.setText(intent.getStringExtra("build_name")+" "+intent.getStringExtra("build_number"));

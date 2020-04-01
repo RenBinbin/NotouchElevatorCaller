@@ -16,6 +16,7 @@ import com.canny.no_touch_elevator.base.BaseActivity;
 import com.canny.no_touch_elevator.util.SharedPrefOP;
 import com.canny.no_touch_elevator.webapi.CannyApi;
 import com.canny.no_touch_elevator.webapi.CannyCallback;
+import com.canny.no_touch_elevator.webapi.response.UserInfoBean;
 
 import java.io.File;
 

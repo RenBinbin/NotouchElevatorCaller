@@ -10,14 +10,22 @@ public class UserInfoBean {
 
 
     /**
-     * userinfo : {"_id":8892,"_bianhao":"1006177","_account":"1006177","_pwd":"C6994BFECF88E9E1","_secre_key":"VJ4T","_user_type":1,"_realname":"任斌斌","_realname_spell":"RenBinBin","_sub_name":"","_sex":1,"_title":"1","_email":"renbinbin@canny-elevator.com","_phone":"13621566571","_caption":"cn=任斌斌,ou=KL_智能部件研发部,ou=康力电梯股份有限公司,ou=康力集团,dc=canny-elevator,dc=com","_enabled":1,"_single_login":0,"_mobile_login":1,"_is_limitip":0,"_is_alarm":1,"_is_sys":1,"_create_time":"2017-07-01T10:45:09","_create_userid":0,"_remark":"Android","_field_1":"","_field_2":"","_field_3":"","_open_id":"13621566571a00000552e111e"}
-     * isOwner : false
-     * etorList : []
+     * userinfo : {"_id":8892,"_bianhao":"1006177","_account":"1006177","_pwd":"C6994BFECF88E9E1","_secre_key":"VJ4T","_user_type":1,"_realname":"任斌斌","_realname_spell":"RenBinBin","_sub_name":"","_sex":1,"_title":"1","_email":"renbinbin@canny-elevator.com","_phone":"13621566571","_caption":"cn=任斌斌,ou=KL_智能部件研发部,ou=康力电梯股份有限公司,ou=康力集团,dc=canny-elevator,dc=com","_enabled":1,"_single_login":0,"_mobile_login":1,"_is_limitip":0,"_is_alarm":1,"_is_sys":0,"_create_time":"2017-07-01T10:45:09","_create_userid":0,"_remark":"Android","_field_1":"","_field_2":"","_field_3":"","_open_id":"13621566571a00000552e111e"}
+     * isOwner : true
+     * ownerList : [{"etor_bianhao":"TEST-YD","build_number":"新里程","build_etorindex":"观光西","etor_index":2,"etor_index_show":"右边副梯"}]
+     * isUser : false
+     * userList : []
+     * isWhiteList : false
+     * whiteList :
      */
 
     private UserinfoBean userinfo;
     private boolean isOwner;
-    private List<?> etorList;
+    private boolean isUser;
+    private boolean isWhiteList;
+    private String whiteList;
+    private List<OwnerListBean> ownerList;
+    private List<?> userList;
 
     public UserinfoBean getUserinfo() {
         return userinfo;
@@ -35,12 +43,44 @@ public class UserInfoBean {
         this.isOwner = isOwner;
     }
 
-    public List<?> getEtorList() {
-        return etorList;
+    public boolean isIsUser() {
+        return isUser;
     }
 
-    public void setEtorList(List<?> etorList) {
-        this.etorList = etorList;
+    public void setIsUser(boolean isUser) {
+        this.isUser = isUser;
+    }
+
+    public boolean isIsWhiteList() {
+        return isWhiteList;
+    }
+
+    public void setIsWhiteList(boolean isWhiteList) {
+        this.isWhiteList = isWhiteList;
+    }
+
+    public String getWhiteList() {
+        return whiteList;
+    }
+
+    public void setWhiteList(String whiteList) {
+        this.whiteList = whiteList;
+    }
+
+    public List<OwnerListBean> getOwnerList() {
+        return ownerList;
+    }
+
+    public void setOwnerList(List<OwnerListBean> ownerList) {
+        this.ownerList = ownerList;
+    }
+
+    public List<?> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<?> userList) {
+        this.userList = userList;
     }
 
     public static class UserinfoBean {
@@ -64,7 +104,7 @@ public class UserInfoBean {
          * _mobile_login : 1
          * _is_limitip : 0
          * _is_alarm : 1
-         * _is_sys : 1
+         * _is_sys : 0
          * _create_time : 2017-07-01T10:45:09
          * _create_userid : 0
          * _remark : Android
@@ -316,6 +356,62 @@ public class UserInfoBean {
 
         public void set_open_id(String _open_id) {
             this._open_id = _open_id;
+        }
+    }
+
+    public static class OwnerListBean {
+        /**
+         * etor_bianhao : TEST-YD
+         * build_number : 新里程
+         * build_etorindex : 观光西
+         * etor_index : 2
+         * etor_index_show : 右边副梯
+         */
+
+        private String etor_bianhao;
+        private String build_number;
+        private String build_etorindex;
+        private int etor_index;
+        private String etor_index_show;
+
+        public String getEtor_bianhao() {
+            return etor_bianhao;
+        }
+
+        public void setEtor_bianhao(String etor_bianhao) {
+            this.etor_bianhao = etor_bianhao;
+        }
+
+        public String getBuild_number() {
+            return build_number;
+        }
+
+        public void setBuild_number(String build_number) {
+            this.build_number = build_number;
+        }
+
+        public String getBuild_etorindex() {
+            return build_etorindex;
+        }
+
+        public void setBuild_etorindex(String build_etorindex) {
+            this.build_etorindex = build_etorindex;
+        }
+
+        public int getEtor_index() {
+            return etor_index;
+        }
+
+        public void setEtor_index(int etor_index) {
+            this.etor_index = etor_index;
+        }
+
+        public String getEtor_index_show() {
+            return etor_index_show;
+        }
+
+        public void setEtor_index_show(String etor_index_show) {
+            this.etor_index_show = etor_index_show;
         }
     }
 }

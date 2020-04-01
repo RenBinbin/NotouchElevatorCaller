@@ -72,8 +72,6 @@
         <item name="android:dropDownHorizontalOffset">-2dp</item>
         <!--文字颜色-->
         <item name="android:textColor">@color/white</item>
-
     </style>
-
 
 </resources>

@@ -40,6 +40,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.RequiresApi;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import permissions.dispatcher.NeedsPermission;
@@ -56,7 +57,6 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     WheelView wvLeft;
     @BindView(R.id.wv_right)
     WheelView wvRight;
-
     @BindView(R.id.iv_up)
     ImageView ivUp;
     @BindView(R.id.iv_down)
@@ -81,12 +81,10 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     private String etor_bianhao;
     private String openId;
     private CannyResponse response;
-    private double longitude;
-    private double latitude;
     private int nowNum;
     private int destNum;
     private List<Integer> newIndex=new ArrayList<>();
-    private List<String> arrList;
+    private List<String> arrList = new ArrayList<>();;
 
     @Override
     protected int getLayoutId() {
@@ -124,15 +122,17 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.jiaonei: {
-                Intent intent1=new Intent(CallElevatorActivity.this,InTheCallActivity.class);
-                intent1.putExtra("floorAry",floorAry);
-                intent1.putExtra("forbidAry1",etorFloorInfoBean.getFloorForbidden().replace(" ", "").split(","));
-                //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
-                // Log.e("len",floorAry.length+"" );
-                startActivity(intent1);
-                finish();
-                newIndex.clear();
-                arrList.clear();
+                if (etorFloorInfoBean!=null){
+                    if (etorFloorInfoBean.isIsGroupEtor()==true){
+                        Toast.makeText(this,"该电梯不支持切换,请重新扫内呼码",Toast.LENGTH_SHORT).show();
+                    }else {
+                        Intent intent1=new Intent(CallElevatorActivity.this,InTheCallActivity.class);
+                        startActivity(intent1);
+                        finish();
+                        newIndex.clear();
+                        arrList.clear();
+                    }
+                }
                 break;
             }
             case R.id.qunkong:
@@ -197,9 +197,9 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
                 //定位成功回调信息，设置相关消息
                 amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
                 //获取纬度
-                latitude = amapLocation.getLatitude();
+                amapLocation.getLatitude();
                 //获取经度
-                longitude = amapLocation.getLongitude();
+                amapLocation.getLongitude();
                 amapLocation.getAccuracy();//获取精度信息
                 if (nowNum == destNum){
                     Toast.makeText(CallElevatorActivity.this,"非法楼层登记",Toast.LENGTH_SHORT).show();
@@ -278,7 +278,14 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
         }
     }
 
-    private void ShowContent() {
+    private void showContent() {
+        if (arrList!=null){
+            for (int i = 0; i <arrList.size() ; i++) {
+                if (arrList.get(i).equals("")){
+                    arrList.remove(i);
+                }
+            }
+        }
         initNowFloor();
         initDestFloor();
         wvLeft.setVisibleItems(7);
@@ -300,8 +307,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
 
     private void initNowFloor() {
         NumericWheelAdapter numericWheelAdapter =
-                new NumericWheelAdapter(this, arrList);
-        numericWheelAdapter.setLabel("");
+                new NumericWheelAdapter(this, arrList);numericWheelAdapter.setLabel("");
         //numericWheelAdapter.setTextSize(15);  设置字体大小
         wvLeft.setViewAdapter(numericWheelAdapter);
         wvLeft.setCyclic(false);
@@ -321,7 +327,6 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
 
     @Override
     public void onFailure(String method, String reason, Object other) {
-
     }
 
     @Override
@@ -332,7 +337,7 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
             floorAry = floorName.replace(" ", "").split(",");
             tvShowMsg.setText(SharedPrefOP.getInstance().getBuildName()+" "+ SharedPrefOP.getInstance().getBuildNumber());
             showPermit();
-            ShowContent();
+            showContent();
             if (etorFloorInfoBean.getLast_call_from()> etorFloorInfoBean.getLast_call_to()){
                 ivUp.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -379,7 +384,6 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
                 intent1.putExtra("left",arrList.get(wvLeft.getCurrentItem())+"");
                 intent1.putExtra("right",arrList.get(wvRight.getCurrentItem())+"");
             }
-            //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
             startActivity(intent1);
             finish();
             newIndex.clear();
@@ -388,15 +392,35 @@ public class CallElevatorActivity extends BaseActivity implements CannyCallback,
     }
 
     private void showPermit() {
-        String[] forbidAry=etorFloorInfoBean.getFloorForbidden().replace(" ", "").split(",");
-        arrList = new ArrayList<>();
-        for (int i = 0; i < forbidAry.length; i++) {
-            if (forbidAry[i].equals("1")){
-                newIndex.add(i);
+        if (etorFloorInfoBean.isNeed_auth()==true){
+            String[] authorFloor=etorFloorInfoBean.getUser_floors().replace(" ", "").split(",");
+            String[] publicFloor=etorFloorInfoBean.getPublic_floors().replace(" ", "").split(",");
+            if (publicFloor==null&&authorFloor!=null){
+                for (int i = 0; i < authorFloor.length; i++) {
+                    arrList.add(authorFloor[i]);
+                }
+            }else if (authorFloor==null&&publicFloor!=null){
+                for (int i = 0; i < publicFloor.length; i++) {
+                    arrList.add(publicFloor[i]);
+                }
+            }else if (authorFloor!=null&&publicFloor!=null){
+                for (int i = 0; i < publicFloor.length; i++) {
+                    arrList.add(publicFloor[i]);
+                }
+                for (int i = 0; i < authorFloor.length; i++) {
+                    arrList.add(authorFloor[i]);
+                }
             }
-        }
-        for (int i = 0; i < newIndex.size(); i++) {
-            arrList.add(floorAry[newIndex.get(i)]);
+        }else {
+            String[] forbidAry=etorFloorInfoBean.getFloorForbidden().replace(" ", "").split(",");
+            for (int i = 0; i < forbidAry.length; i++) {
+                if (forbidAry[i].equals("1")){
+                    newIndex.add(i);
+                }
+            }
+            for (int i = 0; i < newIndex.size(); i++) {
+                arrList.add(floorAry[newIndex.get(i)]);
+            }
         }
     }
 

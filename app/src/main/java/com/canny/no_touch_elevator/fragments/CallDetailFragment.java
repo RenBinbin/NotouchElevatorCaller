@@ -39,7 +39,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CallDetailFragment extends BaseFragment{
+public class  CallDetailFragment extends BaseFragment{
 
     @BindView(R.id.ll_huti)
     LinearLayout llHuti;
@@ -200,7 +200,23 @@ public class CallDetailFragment extends BaseFragment{
                                             }else if (styleNum.equals("后门")){
                                                 styleNum="1";
                                             }
-                                            showAlterDialog();
+                                            if (index1==0&&index2==0&&tvSelect.getText().toString().contains(lastResponse.getMsg().get(0).getBuildName())){
+                                                showAlterDialog();
+                                            }else {
+                                                if (styleNum.equals("0")||styleNum.equals("")){
+                                                    Intent intent=new Intent(getActivity(), CallElevatorActivity.class);
+                                                    intent.putExtra("styleNum","0");
+                                                    SharedPrefOP.getInstance().saveBianHao(list.get(index1).getEtorList().get(index2).getBianhao());
+                                                    startActivity(intent);
+                                                    getActivity().finish();
+                                                }else if (styleNum.equals("0xFF")){
+                                                    Intent intent=new Intent(getActivity(), ScanInTheCallActivity.class);
+                                                    intent.putExtra("styleNum","0xFF");
+                                                    SharedPrefOP.getInstance().saveBianHao(list.get(index1).getEtorList().get(index2).getBianhao());
+                                                    startActivity(intent);
+                                                    getActivity().finish();
+                                                }
+                                            }
                                         }
                                     });
                                 }
@@ -223,35 +239,35 @@ public class CallDetailFragment extends BaseFragment{
                 if (styleNum.equals("0")||styleNum.equals("")){
                     Intent intent=new Intent(getActivity(), CallElevatorActivity.class);
                     intent.putExtra("styleNum","0");
-                    if (index1==0&&index2==0&&
-                            tvSelect.getText().toString().contains(lastResponse.getMsg().get(0).getBuildName())){
+                    //if (index1==0&&index2==0&& tvSelect.getText().toString().contains(lastResponse.getMsg().get(0).getBuildName())){
                         //intent.putExtra("build_name", lastResponse.getMsg().get(0).getBuildName());
                         //intent.putExtra("build_number", lastResponse.getMsg().get(0).getBuild_number());
                         //intent.putExtra("bianhao", lastResponse.getMsg().get(0).getBianhao());
-                        SharedPrefOP.getInstance().saveBianHao(lastResponse.getMsg().get(0).getBianhao());
-                    }else {
+                    SharedPrefOP.getInstance().saveBianHao(lastResponse.getMsg().get(0).getBianhao());
+                   // }
+                    //else {
                         //intent.putExtra("build_name",listName.get(index1).getName());
                         //intent.putExtra("build_number",options2Items.get(index1).get(index2));
                         //intent.putExtra("bianhao",list.get(index1).getEtorList().get(index2).getBianhao());
-                        SharedPrefOP.getInstance().saveBianHao(list.get(index1).getEtorList().get(index2).getBianhao());
-                    }
+                       // SharedPrefOP.getInstance().saveBianHao(list.get(index1).getEtorList().get(index2).getBianhao());
+                   // }
                     startActivity(intent);
                     getActivity().finish();
                 }else if (styleNum.equals("0xFF")){
                     Intent intent=new Intent(getActivity(), ScanInTheCallActivity.class);
                     intent.putExtra("styleNum","0xFF");
-                    if (index1==0&&index2==0&&
-                            tvSelect.getText().toString().contains(lastResponse.getMsg().get(0).getBuildName())){
+                   // if (index1==0&&index2==0&& tvSelect.getText().toString().contains(lastResponse.getMsg().get(0).getBuildName())){
                         // intent.putExtra("build_name", lastResponse.getMsg().get(0).getBuildName());
                         //intent.putExtra("build_number", lastResponse.getMsg().get(0).getBuild_number());
                         // intent.putExtra("bianhao", lastResponse.getMsg().get(0).getBianhao());
-                        SharedPrefOP.getInstance().saveBianHao(lastResponse.getMsg().get(0).getBianhao());
-                    }else {
+                    SharedPrefOP.getInstance().saveBianHao(lastResponse.getMsg().get(0).getBianhao());
+                    //}
+                    //else {
                         // intent.putExtra("build_name",listName.get(index1).getName());
                         // intent.putExtra("build_number",options2Items.get(index1).get(index2));
                         //intent.putExtra("bianhao",list.get(index1).getEtorList().get(index2).getBianhao());
-                        SharedPrefOP.getInstance().saveBianHao(list.get(index1).getEtorList().get(index2).getBianhao());
-                    }
+                    //    SharedPrefOP.getInstance().saveBianHao(list.get(index1).getEtorList().get(index2).getBianhao());
+                   // }
                     startActivity(intent);
                     getActivity().finish();
                 }

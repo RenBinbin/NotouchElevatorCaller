@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SelectActivity">
+    tools:context=".SelectActivity"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/rl_inform"

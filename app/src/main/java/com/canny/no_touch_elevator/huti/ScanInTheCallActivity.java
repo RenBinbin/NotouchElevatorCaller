@@ -118,6 +118,13 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
     }
 
     private void ShowContent() {
+        if (arrList!=null){
+            for (int i = 0; i <arrList.size() ; i++) {
+                if (arrList.get(i).equals("")){
+                    arrList.remove(i);
+                }
+            }
+        }
         initDestFloor();
         WheelOnClick();
         wvNeihu.setVisibleItems(7);
@@ -212,16 +219,42 @@ public class ScanInTheCallActivity extends BaseActivity implements CannyCallback
             forbidAry=forbid.replace(" ", "").split(",");
             floorAry = floorName.replace(" ", "").split(",");
             tvShowMsg.setText(informResponse.getBuild_name()+" "+ informResponse.getBuild_number());
+            showPermit();
+            ShowContent();
+        }
+    }
 
-            for (int i= 0; i < forbidAry.length; i++) {
-                if (forbidAry[i].equals("1")){
-                    newIndex.add(i);
+    private void showPermit() {
+        if (informResponse!=null){
+            if (informResponse.isNeed_auth()==true){
+                String[] authorFloor=informResponse.getUser_floors().replace(" ", "").split(",");
+                String[] publicFloor=informResponse.getPublic_floors().replace(" ", "").split(",");
+                if (publicFloor==null&&authorFloor!=null){
+                    for (int i = 0; i < authorFloor.length; i++) {
+                        arrList.add(authorFloor[i]);
+                    }
+                }else if (authorFloor==null&&publicFloor!=null){
+                    for (int i = 0; i < publicFloor.length; i++) {
+                        arrList.add(publicFloor[i]);
+                    }
+                }else if (authorFloor!=null&&publicFloor!=null){
+                    for (int i = 0; i < publicFloor.length; i++) {
+                        arrList.add(publicFloor[i]);
+                    }
+                    for (int i = 0; i < authorFloor.length; i++) {
+                        arrList.add(authorFloor[i]);
+                    }
+                }
+            }else {
+                for (int i = 0; i < forbidAry.length; i++) {
+                    if (forbidAry[i].equals("1")){
+                        newIndex.add(i);
+                    }
+                }
+                for (int i = 0; i < newIndex.size(); i++) {
+                    arrList.add(floorAry[newIndex.get(i)]);
                 }
             }
-            for (int i = 0; i < newIndex.size(); i++) {
-                arrList.add(floorAry[newIndex.get(i)]);
-            }
-            ShowContent();
         }
     }
 

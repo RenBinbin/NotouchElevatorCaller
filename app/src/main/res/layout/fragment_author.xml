@@ -1,29 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:fitsSystemWindows="true">
-
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/tl_main"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        app:popupTheme="@style/toolbarMenuStyle">-->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@mipmap/canny2"-->
-<!--            android:layout_marginLeft="80dp"-->
-<!--            android:layout_marginRight="100dp"/>-->
-<!--    </androidx.appcompat.widget.Toolbar>-->
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_select"
-        android:text="选择"/>
+    tools:context="com.canny.no_touch_elevator.fragments.AuthorFragment">
 
     <RelativeLayout
         android:id="@+id/rl_apply"
@@ -32,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="授权访客"
+            android:text="访客申请"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="10dp"
             android:textSize="16dp"/>
@@ -49,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="授权用户"
+            android:text="用户申请"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="10dp"
             android:textSize="16dp"/>
@@ -59,4 +39,5 @@
         android:layout_height="1dp"
         android:background="@color/black"
         android:layout_marginTop="5dp"/>
+
 </LinearLayout>

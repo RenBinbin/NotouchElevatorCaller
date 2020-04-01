@@ -1,16 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@color/gray"
-    tools:context="com.canny.no_touch_elevator.fragments.ApplyFragment"
-    android:fitsSystemWindows="true">
-
+    tools:context="com.canny.no_touch_elevator.VisitorActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="申请访客"
+        android:text="授权访客"
         android:gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -28,6 +30,8 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="13dp"/>
         <EditText
+            android:inputType="phone"
+            android:lines="1"
             android:id="@+id/et_phone"
             android:textColor="@color/black"
             android:background="@color/white"
@@ -122,13 +126,14 @@
             android:textColor="@color/white"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="13dp"/>
-        <TextView
-            android:id="@+id/tv_author_num"
+        <EditText
+            android:text="-1"
+            android:lines="1"
+            android:id="@+id/et_author_num"
             android:textSize="15sp"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_num"
-            android:layout_marginTop="14dp"
             android:layout_marginLeft="10dp"/>
         <TextView
             android:layout_width="wrap_content"

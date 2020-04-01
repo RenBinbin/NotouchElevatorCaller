@@ -6,7 +6,8 @@
 
     <color name="translucent_white">#61FFFFFF</color>
     <color name="verify_code_bottom">#1585E4</color>
-
+    <color name="rt_normal">#ababab</color>
+    <color name="rt_check">#5ab3eb</color>
     <!-- 常用颜色值 -->
     <color name="white1">#F5F6FA</color>
     <color name="black1">#323232</color>

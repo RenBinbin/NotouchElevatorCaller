@@ -51,8 +51,6 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
     @BindView(R.id.tv_showMsg)
     TextView tvShowMsg;
 
-    private String[] floorAry;
-    private String[] forbidAry1;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -62,17 +60,16 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
     private Timer t;
     private int index=0;
     public static Dialog mWeiboDialog;
-    private String[] floorAry1;
+    private String[] floorAry;
     private String[] forbidAry;
     private List<Integer> newIndex=new ArrayList<>();
-    private Intent intent;
     private EtorFloorInfoBean informResponse;
     private Handler handler;
     private NetworkInfo mNetworkInfo;
     private String openId;
     private String etor_bianhao;
     private int destNum;
-    private List<String> arrList;
+    private List<String> arrList=new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -89,12 +86,9 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
         //设置定位回调监听
         mLocationClient.setLocationListener(this);
         initLocationOption();
-        intent = getIntent();
-        floorAry = intent.getStringArrayExtra("floorAry");
-        forbidAry1 = intent.getStringArrayExtra("forbidAry1");
 
         tvShowMsg.setText(SharedPrefOP.getInstance().getBuildName()+" "+SharedPrefOP.getInstance().getBuildNumber());
-        ShowContent();
+
     }
 
     private void initLocationOption() {
@@ -116,15 +110,22 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
         mLocationClient.setLocationOption(mLocationOption);
     }
 
-    private void ShowContent() {
-        initDestFloor();
+    private void showContent() {
+        if (arrList!=null){
+            for (int i = 0; i <arrList.size() ; i++) {
+                if (arrList.get(i).equals("")){
+                    arrList.remove(i);
+                }
+            }
+        }
+        initNeiHuData();
         wvNeihu.setVisibleItems(7);
-        ConnectivityManager mConnectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
                 mLocationClient.startLocation();
                 mWeiboDialog = WeiboDialogUtils.createLoadingDialog(InTheCallActivity.this, "传输中...");
                 mHandler.sendEmptyMessageDelayed(1, 30000);
@@ -134,6 +135,13 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
                 }
             }
         });
+    }
+
+    private void initNeiHuData() {
+        NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this, arrList);
+        numericWheelAdapter.setLabel("");
+        wvNeihu.setViewAdapter(numericWheelAdapter);
+        wvNeihu.setCyclic(false);
     }
 
     @Override
@@ -155,18 +163,6 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initDestFloor() {
-        if (floorAry!=null){
-            showPermit1();
-            NumericWheelAdapter numericWheelAdapter =
-                    new NumericWheelAdapter(this,arrList);
-            numericWheelAdapter.setLabel("");
-            wvNeihu.setViewAdapter(numericWheelAdapter);
-            wvNeihu.setCyclic(false);
-            WheelOnClick();
-        }
     }
 
     private Handler mHandler = new Handler() {
@@ -221,10 +217,6 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
             if (arrList.size()!=0){
                 intent1.putExtra("right", arrList.get(wvNeihu.getCurrentItem()) + "");
             }
-
-            //intent1.putExtra("build_name",informResponse.get);
-            //intent1.putExtra("build_number",informResponse.getMsg().getBuild_number());
-            //intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
             startActivity(intent1);
             finish();
         }else if (method=="GetEtorFloorInfo"){
@@ -232,47 +224,45 @@ public class InTheCallActivity extends BaseActivity implements CannyCallback,AMa
             String floorName = informResponse.getFloorName();
             String forbid= informResponse.getFloorForbidden();
             forbidAry=forbid.replace(" ", "").split(",");
-            floorAry1 = floorName.replace(" ", "").split(",");
-            //List<String> list1= Arrays.asList(forbidAry);
+            floorAry = floorName.replace(" ", "").split(",");
             showPermit();
-
+            showContent();
+            WheelOnClick();
         }
     }
 
     private void showPermit() {
-        arrList = new ArrayList<>();
-        if (floorAry==null){
-            for (int i = 0; i < forbidAry.length; i++) {
-                if (forbidAry[i].equals("1")){
-                    newIndex.add(i);
+        if (informResponse!=null){
+            if (informResponse.isNeed_auth()==true){
+                String[] authorFloor=informResponse.getUser_floors().replace(" ", "").split(",");
+                String[] publicFloor=informResponse.getPublic_floors().replace(" ", "").split(",");
+                if (publicFloor==null&&authorFloor!=null){
+                    for (int i = 0; i < authorFloor.length; i++) {
+                        arrList.add(authorFloor[i]);
+                    }
+                }else if (authorFloor==null&&publicFloor!=null){
+                    for (int i = 0; i < publicFloor.length; i++) {
+                        arrList.add(publicFloor[i]);
+                    }
+                }else if (authorFloor!=null&&publicFloor!=null){
+                    for (int i = 0; i < publicFloor.length; i++) {
+                        arrList.add(publicFloor[i]);
+                    }
+                    for (int i = 0; i < authorFloor.length; i++) {
+                        arrList.add(authorFloor[i]);
+                    }
+                }
+            }else {
+                for (int i = 0; i < forbidAry.length; i++) {
+                    if (forbidAry[i].equals("1")){
+                        newIndex.add(i);
+                    }
+                }
+                for (int i = 0; i < newIndex.size(); i++) {
+                    arrList.add(floorAry[newIndex.get(i)]);
                 }
             }
-            for (int i = 0; i < newIndex.size(); i++) {
-                arrList.add(floorAry1[newIndex.get(i)]);
-            }
-            NumericWheelAdapter numericWheelAdapter =
-                    new NumericWheelAdapter(this, arrList);
-            numericWheelAdapter.setLabel("");
-            wvNeihu.setViewAdapter(numericWheelAdapter);
-            wvNeihu.setCyclic(false);
         }
-    }
-
-    private void showPermit1() {
-        arrList = new ArrayList<>();
-        for (int i = 0; i < forbidAry1.length; i++) {
-            if (forbidAry1[i].equals("1")){
-                newIndex.add(i);
-            }
-        }
-        for (int i = 0; i < newIndex.size(); i++) {
-            arrList.add(floorAry[newIndex.get(i)]);
-        }
-        NumericWheelAdapter numericWheelAdapter =
-                new NumericWheelAdapter(this, arrList);
-        numericWheelAdapter.setLabel("");
-        wvNeihu.setViewAdapter(numericWheelAdapter);
-        wvNeihu.setCyclic(false);
     }
 
     // 构建Runnable对象，在runnable中更新界面

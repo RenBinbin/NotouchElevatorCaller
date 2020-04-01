@@ -241,79 +241,6 @@ public  class CannyApi {
                 });
     }
 
-    public static void VisitorPermissRequest(String openId,String qrbarcode,String visitor_name,
-                                             String visitor_phone,String respondent_name,String respondent_phone,
-                                             String reason,String visiter_time,final CannyCallback cannyCallback) {
-        //用户请求访客权限记录提交
-        OkGo.<CannyResponse>post(Constants.VisitorPermissRequestUrl)
-                //.tag(context)//唯一标示：取消请求需要用到
-                .params("openId",openId)
-                .params("qrbarcode", qrbarcode)
-                .params("visitor_name", visitor_name)
-                .params("visitor_phone", visitor_phone)
-                .params("respondent_name", respondent_name)
-                .params("respondent_phone", respondent_phone)
-                .params("reason", reason)
-                .params("visiter_time", visiter_time)
-                .execute(new JsonCallback<CannyResponse>() {
-                    @Override
-                    public void onSuccess(com.lzy.okgo.model.Response<CannyResponse> response) {
-                        CannyResponse cannyResponse = response.body();
-                        if(1==cannyResponse.result) {
-                            LinkedTreeMap tm = (LinkedTreeMap) cannyResponse.msg;
-                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                            String jsonString = gson.toJson(tm);
-
-                            //cannyCallback.onSuccess("VisitorPermissRequest", statusInforBean,statusInforBean);
-                        }else{
-                            cannyCallback.onFailure("VisitorPermissRequest", cannyResponse.msg.toString(), cannyResponse.msg.toString());
-                            //Toast.makeText(MyApp.getApplication(), cannyResponse.msg.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onError(com.lzy.okgo.model.Response<CannyResponse> response) {
-                        if (response.message()!=null){
-                            cannyCallback.onFailure("VisitorPermissRequest", response.message(), null);
-                        }
-                    }
-                });
-    }
-
-    public static void VisitorPermissResport(String openId,String requestId,boolean result,
-                                             int allow_times,String respondent_name,String expire_date, final CannyCallback cannyCallback) {
-        //用户应答请求访客权限,记录提交
-        OkGo.<CannyResponse>post(Constants.VisitorPermissResportUrl)
-                //.tag(context)//唯一标示：取消请求需要用到
-                .params("openId",openId)
-                .params("requestId", requestId)
-                .params("result", result)
-                .params("allow_times", allow_times)
-                .params("expire_date", expire_date)
-                .params("respondent_name", respondent_name)
-                .execute(new JsonCallback<CannyResponse>() {
-                    @Override
-                    public void onSuccess(com.lzy.okgo.model.Response<CannyResponse> response) {
-                        CannyResponse cannyResponse = response.body();
-                        if(1==cannyResponse.result) {
-                            LinkedTreeMap tm = (LinkedTreeMap) cannyResponse.msg;
-                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                            String jsonString = gson.toJson(tm);
-
-                            //cannyCallback.onSuccess("VisitorPermissRequest", statusInforBean,statusInforBean);
-                        }else{
-                            cannyCallback.onFailure("VisitorPermissRequest", cannyResponse.msg.toString(), cannyResponse.msg.toString());
-                            //Toast.makeText(MyApp.getApplication(), cannyResponse.msg.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onError(com.lzy.okgo.model.Response<CannyResponse> response) {
-                        if (response.message()!=null){
-                            cannyCallback.onFailure("VisitorPermissRequest", response.message(), null);
-                        }
-                    }
-                });
-    }
-
     public static void GroupRunStateRequest(String openId,String qrbarcode,final CannyCallback cannyCallback) {
         //群控电梯查询运行状态请求接口
         OkGo.<CannyResponse>post(Constants.RunStateRequestUrl)
@@ -367,7 +294,6 @@ public  class CannyApi {
                             }
                         }
                     }
-
                     @Override
                     public void onError(Response<Object> response) {
                         super.onError(response);
@@ -376,4 +302,41 @@ public  class CannyApi {
                 });
 
     }
+
+    public static void AuthUserReqest(String openId,String etorBianhao,String userPhone,String allow_floors,int allow_times,
+                                   String expiration_date,String note,final CannyCallback callCallback) {
+        OkGo.<CannyResponse>post(Constants.AuthUserReqestUrl)
+                //.tag(context)//唯一标示：取消请求需要用到
+                .params("openId",openId)
+                .params("etorBianhao", etorBianhao)
+                .params("userPhone", userPhone)
+                .params("allow_floors",allow_floors )
+                .params("allow_times",allow_times )
+                .params("expiration_date",expiration_date)
+                .params("note",note)
+                .execute(new JsonCallback<CannyResponse>() {
+                    @Override
+                    public void onSuccess(com.lzy.okgo.model.Response<CannyResponse> response) {
+                        CannyResponse cannyResponse = response.body();
+                        if(1==cannyResponse.result) {
+                          /*  LinkedTreeMap tm = (LinkedTreeMap) cannyResponse.msg;
+                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                            String jsonString = gson.toJson(tm);
+                            LoginResponse callRsponse = gson.fromJson(jsonString, LoginResponse.class);*/
+                            callCallback.onSuccess("AuthUserReqest", cannyResponse,cannyResponse);
+                            Toast.makeText(MyApp.getApplication(), "电梯授权成功", Toast.LENGTH_SHORT).show();
+                        }else{
+                            callCallback.onFailure("AuthUserReqest", cannyResponse.msg.toString(), null);
+                            Toast.makeText(MyApp.getApplication(), cannyResponse.msg.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onError(com.lzy.okgo.model.Response<CannyResponse> response) {
+                        if (response.message()!=null){
+                            callCallback.onFailure("AuthUserReqest", response.message(), null);
+                        }
+                    }
+                });
+    }
+
 }

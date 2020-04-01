@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':rtmulticheckdialog_module'
 rootProject.name='NotouchElevatorCaller'

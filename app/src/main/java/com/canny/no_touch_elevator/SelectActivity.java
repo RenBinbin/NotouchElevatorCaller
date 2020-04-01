@@ -8,8 +8,10 @@ import android.widget.TextView;
 import com.canny.no_touch_elevator.adapter.MyFragmentPagerAdapter;
 import com.canny.no_touch_elevator.base.BaseActivity;
 import com.canny.no_touch_elevator.fragments.ApplyFragment;
+import com.canny.no_touch_elevator.fragments.AuthorFragment;
 import com.canny.no_touch_elevator.fragments.CallDetailFragment;
 import com.canny.no_touch_elevator.fragments.SelectContentFragment;
+import com.canny.no_touch_elevator.fragments.UserFragment;
 import com.canny.no_touch_elevator.util.SharedPrefOP;
 
 import java.util.ArrayList;
@@ -44,10 +46,11 @@ public class SelectActivity extends BaseActivity {
         aList.add(new SelectContentFragment());
         aList.add(new CallDetailFragment());
         aList.add(new ApplyFragment());
+        aList.add(new UserFragment());
+       // aList.add(new AuthorFragment());
         MyFragmentPagerAdapter mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), aList);
         vpSelect.setAdapter(mAdapter);
         vpSelect.setCurrentItem(0);
-
 
         if (intent.getStringExtra("page2")!=null){
             vpSelect.setCurrentItem(Integer.parseInt(intent.getStringExtra("page2")));
@@ -55,9 +58,16 @@ public class SelectActivity extends BaseActivity {
         }else if (intent.getStringExtra("page3")!=null){
             vpSelect.setCurrentItem(Integer.parseInt(intent.getStringExtra("page3")));
             rlInform.setVisibility(View.GONE);
+        }else if (intent.getStringExtra("page4")!=null){
+            vpSelect.setCurrentItem(Integer.parseInt(intent.getStringExtra("page4")));
+            rlInform.setVisibility(View.GONE);
         }
 
-        tvName.setText(SharedPrefOP.getInstance().getUsername());
+        if (SharedPrefOP.getInstance().getUsername().equals("")){
+            tvName.setText("未实名制");
+        }else {
+            tvName.setText(SharedPrefOP.getInstance().getUsername());
+        }
         tvPhoneNum.setText(SharedPrefOP.getInstance().getPhoneNum());
     }
 
