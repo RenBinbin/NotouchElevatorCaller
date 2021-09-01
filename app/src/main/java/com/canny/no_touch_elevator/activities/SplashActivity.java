@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -16,7 +15,6 @@ import com.canny.no_touch_elevator.base.BaseActivity;
 import com.canny.no_touch_elevator.util.SharedPrefOP;
 import com.canny.no_touch_elevator.webapi.CannyApi;
 import com.canny.no_touch_elevator.webapi.CannyCallback;
-import com.canny.no_touch_elevator.webapi.response.UserInfoBean;
 
 import java.io.File;
 

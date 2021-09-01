@@ -32,13 +32,11 @@ public class InTheCallSucessActivity extends BaseActivity {
         Intent intent=getIntent();
         tvFloorNum.setText(intent.getStringExtra("right"));
 
-        //tvShowMsg.setText(intent.getStringExtra("build_name")+" "+intent.getStringExtra("build_number"));
         tvShowMsg.setText(SharedPrefOP.getInstance().getBuildName()+" "+SharedPrefOP.getInstance().getBuildNumber());
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1=new Intent(InTheCallSucessActivity.this,InTheCallActivity.class);
-               // intent1.putExtra("bianhao",intent.getStringExtra("bianhao"));
                 startActivity(intent1);
                 finish();
             }

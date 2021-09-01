@@ -59,15 +59,15 @@
             android:text="目的层: "
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"/>
+
         <TextView
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:text="3"
-            android:textSize="20sp"
             android:id="@+id/tv_floorNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -75,7 +75,6 @@
         android:background="@color/white"
         android:layout_above="@+id/tv_showMsg"/>
     <TextView
-        android:text="111111"
         android:gravity="center_horizontal"
         android:textSize="16dp"
         android:textColor="@color/white"

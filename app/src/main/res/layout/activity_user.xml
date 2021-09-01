@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/gray"
+    android:fitsSystemWindows="true"
     tools:context="com.canny.no_touch_elevator.UserActivity">
     <TextView
         android:layout_width="match_parent"

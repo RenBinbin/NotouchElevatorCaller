@@ -40,11 +40,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.RequiresApi;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class CallElevatorActivity extends BaseActivity implements CannyCallback,AMapLocationListener{

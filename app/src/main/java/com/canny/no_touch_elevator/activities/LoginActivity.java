@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,9 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.canny.no_touch_elevator.BroadcastReceiver.ISmsReceived;
 import com.canny.no_touch_elevator.BroadcastReceiver.SMSContentObserver;
-import com.canny.no_touch_elevator.BroadcastReceiver.SMSReceiver;
 import com.canny.no_touch_elevator.R;
 import com.canny.no_touch_elevator.base.BaseActivity;
 import com.canny.no_touch_elevator.util.Assistant;
@@ -41,7 +38,6 @@ import butterknife.ButterKnife;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 
-import static com.canny.no_touch_elevator.BroadcastReceiver.SMSReceiver.ACTION_SMS_RECEIVER;
 
 @RuntimePermissions
 public class LoginActivity extends BaseActivity implements CannyCallback,
@@ -130,7 +126,7 @@ public class LoginActivity extends BaseActivity implements CannyCallback,
                 if (mNetworkInfo==null){
                     Toast.makeText(LoginActivity.this,"无网络信号",Toast.LENGTH_SHORT).show();
                 }else {
-                    if (etPhoneNum.getText().toString().length()==11){
+                    if (etPhoneNum.getText().toString()!=null){
                         CannyApi.Login(etPhoneNum.getText().toString().trim(),verify_code_view.getEditContent().toString().trim(),LoginActivity.this);
                         mWeiboDialog = WeiboDialogUtils.createLoadingDialog(LoginActivity.this, "登录中...");
                         mHandler.sendEmptyMessageDelayed(1, 10000);

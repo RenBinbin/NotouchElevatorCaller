@@ -38,6 +38,7 @@
             android:src="@drawable/icon_login_account"/>
 
         <EditText
+            android:inputType="phone"
             android:id="@+id/et_phone_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

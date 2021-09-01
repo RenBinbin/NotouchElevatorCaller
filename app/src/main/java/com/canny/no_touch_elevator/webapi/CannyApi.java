@@ -8,29 +8,17 @@ import com.canny.no_touch_elevator.util.Assistant;
 import com.canny.no_touch_elevator.util.SharedPrefOP;
 import com.canny.no_touch_elevator.webapi.customcallback.CannyResponse;
 import com.canny.no_touch_elevator.webapi.customcallback.JsonCallback;
-import com.canny.no_touch_elevator.webapi.customcallback.JsonConvert;
-import com.canny.no_touch_elevator.webapi.customcallback.SimpleResponse;
-import com.canny.no_touch_elevator.webapi.response.ElevatorBean;
+
 import com.canny.no_touch_elevator.webapi.response.EtorFloorInfoBean;
 import com.canny.no_touch_elevator.webapi.response.GroupRequestBean;
 import com.canny.no_touch_elevator.webapi.response.GroupResultBean;
 import com.canny.no_touch_elevator.webapi.response.StatusInforBean;
-import com.canny.no_touch_elevator.webapi.response.UserBuildResponse;
 import com.canny.no_touch_elevator.webapi.response.UserInfoBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.internal.LinkedTreeMap;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by renbinbin1 on 2018/7/12.
@@ -300,7 +288,6 @@ public  class CannyApi {
 
                     }
                 });
-
     }
 
     public static void AuthUserReqest(String openId,String etorBianhao,String userPhone,String allow_floors,int allow_times,
@@ -319,10 +306,6 @@ public  class CannyApi {
                     public void onSuccess(com.lzy.okgo.model.Response<CannyResponse> response) {
                         CannyResponse cannyResponse = response.body();
                         if(1==cannyResponse.result) {
-                          /*  LinkedTreeMap tm = (LinkedTreeMap) cannyResponse.msg;
-                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                            String jsonString = gson.toJson(tm);
-                            LoginResponse callRsponse = gson.fromJson(jsonString, LoginResponse.class);*/
                             callCallback.onSuccess("AuthUserReqest", cannyResponse,cannyResponse);
                             Toast.makeText(MyApp.getApplication(), "电梯授权成功", Toast.LENGTH_SHORT).show();
                         }else{
